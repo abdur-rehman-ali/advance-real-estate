@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def register_view(request):
   if request.method == 'POST':
@@ -28,6 +30,6 @@ def login_view(request):
 
 @login_required
 def logout_view(request):
-  if request.method == 'POST':
+  if request.method in ['POST', 'GET']:
     logout(request)
     return redirect('home')
