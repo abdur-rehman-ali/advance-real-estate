@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
 def register_view(request):
   if request.method == 'POST':
@@ -17,13 +17,13 @@ def register_view(request):
 
 def login_view(request):
   if request.method == 'POST':
-    form = AuthenticationForm(data=request.POST)
+    form = CustomAuthenticationForm(data=request.POST)
     if form.is_valid():
       user = form.get_user()
       login(request, user)
       return redirect('home')
   else:
-    form = AuthenticationForm()
+    form = CustomAuthenticationForm()
   return render(request, 'authentication/login.html', {'form': form})
 
 @login_required
